@@ -5,26 +5,28 @@ import (
 	"math"
 )
 
-func (uc ShopUC) ValidatePromo(item []models.Cart) (finalPrice float64) {
-	googleHomeSKU := "120P90"
-	macbookProSKU := "43N23P"
-	alexaSpeakerSKU := "A304SD"
-	raspberryPiSKU := "234234"
+const (
+	GoogleHomeSKU   = "120P90"
+	MacbookProSKU   = "43N23P"
+	AlexaSpeakerSKU = "A304SD"
+	RaspberryPiSKU  = "234234"
+)
 
+func (uc ShopUC) ValidatePromo(item []models.Cart) (finalPrice float64) {
 	items := make(map[string]int)
 	for _, cart := range item {
 		items[cart.ItemSKU] += cart.CartQuantity
 	}
 	for _, cart := range item {
 		switch cart.ItemSKU {
-		case raspberryPiSKU:
-			cart.CartQuantity -= items[macbookProSKU]
+		case RaspberryPiSKU:
+			cart.CartQuantity -= items[MacbookProSKU]
 			finalPrice += cart.ItemPrice * float64(cart.CartQuantity)
-		case googleHomeSKU:
-			cart.CartQuantity -= items[googleHomeSKU] / 3
+		case GoogleHomeSKU:
+			cart.CartQuantity -= items[GoogleHomeSKU] / 3
 			finalPrice += cart.ItemPrice * float64(cart.CartQuantity)
-		case alexaSpeakerSKU:
-			if items[alexaSpeakerSKU] >= 3 {
+		case AlexaSpeakerSKU:
+			if items[AlexaSpeakerSKU] >= 3 {
 				finalPrice += (cart.ItemPrice - cart.ItemPrice*10/100) * float64(cart.CartQuantity)
 			} else {
 				finalPrice += cart.ItemPrice * float64(cart.CartQuantity)

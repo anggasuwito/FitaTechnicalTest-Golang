@@ -170,3 +170,5 @@ RESPONSE
     "status": true
 }
 ```
+
+5. Run test ```go test api/usecase/uc_shop/*.go```
